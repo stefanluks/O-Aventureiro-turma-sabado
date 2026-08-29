@@ -9,17 +9,25 @@ public class ControleJogador : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Hello, world!");
+        fisica = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        fisica.linearVelocity = new Vector2(direcao.x * velocidade, 0);
+        fisica.linearVelocity = direcao * velocidade;
     }
 
     public void OnMove(InputAction.CallbackContext input)
     {
         direcao = input.ReadValue<Vector2>();
+    }
+
+    void OnTriggerEnter2D(Collider2D colisao)
+    {
+        if(colisao.gameObject.tag == "Finish")
+        {
+            Debug.Log("Fase concluida");
+        }
     }
 }
