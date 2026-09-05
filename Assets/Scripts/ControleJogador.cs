@@ -29,5 +29,9 @@ public class ControleJogador : MonoBehaviour
         {
             Debug.Log("Fase concluida");
         }
+        if(colisao.gameObject.tag == "orbe")
+        {
+            Destroy(colisao.gameObject);
+        }
     }
 }
