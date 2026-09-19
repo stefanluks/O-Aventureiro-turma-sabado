@@ -6,6 +6,7 @@ public class ControleJogador : MonoBehaviour
     public int velocidade;
     public Rigidbody2D fisica;
     private Vector2 direcao;
+    private Vector2 UltimaDirecao;
     public Animator animador;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +21,11 @@ public class ControleJogador : MonoBehaviour
         fisica.linearVelocity = direcao * velocidade;
         animador.SetFloat("eixoX", direcao.x);
         animador.SetFloat("eixoY", direcao.y);
+        animador.SetFloat("UltimoX", UltimaDirecao.x);
+        animador.SetFloat("UltimoY", UltimaDirecao.y);
         animador.SetBool("correndo", direcao != Vector2.zero);
+
+        if(direcao != Vector2.zero) UltimaDirecao = direcao;
     }
 
     public void OnMove(InputAction.CallbackContext input)
@@ -32,11 +37,12 @@ public class ControleJogador : MonoBehaviour
     {
         if(colisao.gameObject.tag == "Finish")
         {
-            Debug.Log("Fase concluida");
+            GameManager.instancia.TrocarFase();
         }
         if(colisao.gameObject.tag == "orbe")
         {
             Destroy(colisao.gameObject);
+            GameManager.instancia.ColetarOrbe();
         }
     }
 }
