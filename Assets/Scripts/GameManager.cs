@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,8 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instancia {private set; get;}
     [SerializeField] private int orbesColetadas = 0;
-    private int meta = 3;
-
+    [SerializeField] private List<Fase> fases;
+    private int fase_atual = 0;
+ 
     void Awake()
     {
         if(instancia != null && instancia != this)
@@ -27,9 +29,10 @@ public class GameManager : MonoBehaviour
 
     public void TrocarFase()
     {
-        if(orbesColetadas == meta)
+        if(orbesColetadas == fases[fase_atual].meta)
         {
-            SceneManager.LoadScene("fase1");
+            fase_atual++;
+            SceneManager.LoadScene(fases[fase_atual].nome);
             orbesColetadas = 0;
         }
     }

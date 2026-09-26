@@ -15,7 +15,6 @@ public class ControleJogador : MonoBehaviour
         animador = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         fisica.linearVelocity = direcao * velocidade;
