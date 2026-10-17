@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Fase> fases;
 
     [Header("INTERFACE")]
-    [SerializeField] private Text titulo;
+    [SerializeField] private Text orbesText;
     [SerializeField] private GameObject menuOpcoes;
     private int fase_atual = 0;
     int cont = 0;
@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
     {
         // titulo.text = "MEU JOGO!";
         menuOpcoes.SetActive(false);
+    }
+
+    void Update()
+    {
+        orbesText.text = orbesColetadas+"/"+fases[fase_atual].meta;
     }
  
     void Awake()
@@ -47,14 +52,6 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(fases[fase_atual].nome);
             orbesColetadas = 0;
         }
-    }
-
-    public void Demonstracao()
-    {
-        cont++;
-        Debug.Log("TESTE: "+cont);
-        titulo.text = ""+cont;
-        titulo.gameObject.SetActive(cont % 2 == 0);
     }
 
     public void Sair()
