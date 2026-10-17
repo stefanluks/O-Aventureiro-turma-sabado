@@ -7,14 +7,18 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instancia {private set; get;}
     [SerializeField] private int orbesColetadas = 0;
-    [SerializeField] private Text titulo;
     [SerializeField] private List<Fase> fases;
+
+    [Header("INTERFACE")]
+    [SerializeField] private Text titulo;
+    [SerializeField] private GameObject menuOpcoes;
     private int fase_atual = 0;
     int cont = 0;
 
     void Start()
     {
         // titulo.text = "MEU JOGO!";
+        menuOpcoes.SetActive(false);
     }
  
     void Awake()
@@ -51,5 +55,22 @@ public class GameManager : MonoBehaviour
         Debug.Log("TESTE: "+cont);
         titulo.text = ""+cont;
         titulo.gameObject.SetActive(cont % 2 == 0);
+    }
+
+    public void Sair()
+    {
+        Debug.Log("Encerrando jogo...");
+        Application.Quit();
+    }
+
+    public void MenuOpcoes()
+    {
+        menuOpcoes.SetActive(!menuOpcoes.activeSelf);
+    }
+
+    public void InciarJogo()
+    {
+        fase_atual = 1;
+        SceneManager.LoadScene("fase1");
     }
 }
