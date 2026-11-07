@@ -8,6 +8,7 @@ public class Esqueleto : MonoBehaviour
     [SerializeField] private int velocidade;
     [SerializeField] private int distancia;
     [SerializeField] private Animator animador;
+    private int vida = 3;
     void Update()
     {
         animador.SetBool("correndo", true);
@@ -42,6 +43,20 @@ public class Esqueleto : MonoBehaviour
                 velocidade * Time.deltaTime
             );
         }
+
+        if(vida <= 0) Destroy(gameObject);
+    }
+
+    public void Dano()
+    {
+        vida--;
+        GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+        Invoke("fimDano", 0.3f);
+    }
+
+    void fimDano()
+    {
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
     }
 
     void NovaPosicao()

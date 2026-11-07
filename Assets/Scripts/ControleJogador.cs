@@ -8,6 +8,7 @@ public class ControleJogador : MonoBehaviour
     private Vector2 direcao;
     private Vector2 UltimaDirecao;
     public Animator animador;
+    private bool atacando = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,19 +18,30 @@ public class ControleJogador : MonoBehaviour
 
     void Update()
     {
-        fisica.linearVelocity = direcao * velocidade;
+        if(!atacando){
+            fisica.linearVelocity = direcao * velocidade;
+        }
         animador.SetFloat("eixoX", direcao.x);
         animador.SetFloat("eixoY", direcao.y);
         animador.SetFloat("UltimoX", UltimaDirecao.x);
         animador.SetFloat("UltimoY", UltimaDirecao.y);
         animador.SetBool("correndo", direcao != Vector2.zero);
-
+        animador.SetBool("atacando", atacando);
         if(direcao != Vector2.zero) UltimaDirecao = direcao;
     }
 
     public void OnMove(InputAction.CallbackContext input)
     {
         direcao = input.ReadValue<Vector2>();
+    }
+    public void OnAtack(InputAction.CallbackContext input)
+    {
+        if(input.performed) atacando = true;
+    }
+
+    public void PararAtaque()
+    {
+        atacando = false;
     }
 
     void OnTriggerEnter2D(Collider2D colisao)
@@ -42,6 +54,10 @@ public class ControleJogador : MonoBehaviour
         {
             Destroy(colisao.gameObject);
             GameManager.instancia.ColetarOrbe();
+        }
+        if(colisao.gameObject.tag == "Inimigo" && atacando)
+        {
+            colisao.gameObject.GetComponent<Esqueleto>().Dano();
         }
     }
 }

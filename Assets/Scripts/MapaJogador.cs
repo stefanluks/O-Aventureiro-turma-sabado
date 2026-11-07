@@ -100,6 +100,15 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ataque"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e284133-28a6-4724-b718-17613a3550ed"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -157,6 +166,17 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
                     ""action"": ""movimento"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00844a78-974e-4722-b973-ea1639186f4c"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ataque"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -166,6 +186,7 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
         // jogador
         m_jogador = asset.FindActionMap("jogador", throwIfNotFound: true);
         m_jogador_movimento = m_jogador.FindAction("movimento", throwIfNotFound: true);
+        m_jogador_ataque = m_jogador.FindAction("ataque", throwIfNotFound: true);
     }
 
     ~@MapaJogador()
@@ -247,6 +268,7 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_jogador;
     private List<IJogadorActions> m_JogadorActionsCallbackInterfaces = new List<IJogadorActions>();
     private readonly InputAction m_jogador_movimento;
+    private readonly InputAction m_jogador_ataque;
     /// <summary>
     /// Provides access to input actions defined in input action map "jogador".
     /// </summary>
@@ -262,6 +284,10 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "jogador/movimento".
         /// </summary>
         public InputAction @movimento => m_Wrapper.m_jogador_movimento;
+        /// <summary>
+        /// Provides access to the underlying input action "jogador/ataque".
+        /// </summary>
+        public InputAction @ataque => m_Wrapper.m_jogador_ataque;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -291,6 +317,9 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
             @movimento.started += instance.OnMovimento;
             @movimento.performed += instance.OnMovimento;
             @movimento.canceled += instance.OnMovimento;
+            @ataque.started += instance.OnAtaque;
+            @ataque.performed += instance.OnAtaque;
+            @ataque.canceled += instance.OnAtaque;
         }
 
         /// <summary>
@@ -305,6 +334,9 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
             @movimento.started -= instance.OnMovimento;
             @movimento.performed -= instance.OnMovimento;
             @movimento.canceled -= instance.OnMovimento;
+            @ataque.started -= instance.OnAtaque;
+            @ataque.performed -= instance.OnAtaque;
+            @ataque.canceled -= instance.OnAtaque;
         }
 
         /// <summary>
@@ -352,5 +384,12 @@ public partial class @MapaJogador: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMovimento(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ataque" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAtaque(InputAction.CallbackContext context);
     }
 }
