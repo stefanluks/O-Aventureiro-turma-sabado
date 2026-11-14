@@ -205,6 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Esqueleto
   velocidade: 3
   distancia: 5
+  orbePrefab: {fileID: 8560165469915515356, guid: dc068959c4306544b8bf39ca80c4d30d, type: 3}
   animador: {fileID: 1935858156279762810}
 --- !u!58 &5666811342481101219
 CircleCollider2D:

@@ -8,10 +8,17 @@ public class GameManager : MonoBehaviour
     public static GameManager instancia {private set; get;}
     [SerializeField] private int orbesColetadas = 0;
     [SerializeField] private List<Fase> fases;
+    [SerializeField] private GameObject esqueletoPrefab;
 
     [Header("INTERFACE")]
     [SerializeField] private Text orbesText;
+    [SerializeField] private GameObject menu;
     [SerializeField] private GameObject menuOpcoes;
+
+    [Header("Audios")]
+    [SerializeField] private AudioSource trilha;
+    [SerializeField] private Slider volumeMusica;
+
     private int fase_atual = 0;
     int cont = 0;
 
@@ -24,6 +31,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         orbesText.text = orbesColetadas+"/"+fases[fase_atual].meta;
+    }
+
+    public void VolumeMusica()
+    {
+        trilha.volume = volumeMusica.value;
     }
  
     void Awake()
@@ -51,6 +63,7 @@ public class GameManager : MonoBehaviour
             fase_atual++;
             SceneManager.LoadScene(fases[fase_atual].nome);
             orbesColetadas = 0;
+            Invoke("ColocarEsqueletos", 1f);
         }
     }
 
@@ -67,7 +80,19 @@ public class GameManager : MonoBehaviour
 
     public void InciarJogo()
     {
-        fase_atual = 1;
-        SceneManager.LoadScene("fase1");
+       menu.SetActive(false);
+       menuOpcoes.SetActive(false);
+       ColocarEsqueletos();
+    }
+
+    void ColocarEsqueletos()
+    {
+        int quantidade = fases[fase_atual].meta;
+        for(int i=0; i < quantidade; i++)
+        {
+            float x = Random.Range(-6.69f, 6.69f);
+            float y = Random.Range(-3.57f, 3.57f);
+            Instantiate(esqueletoPrefab, new Vector3(x, y, 0), Quaternion.identity);
+        }
     }
 }

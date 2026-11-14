@@ -7,6 +7,7 @@ public class Esqueleto : MonoBehaviour
     private Transform jogador;
     [SerializeField] private int velocidade;
     [SerializeField] private int distancia;
+    [SerializeField] private GameObject orbePrefab;
     [SerializeField] private Animator animador;
     private int vida = 3;
     void Update()
@@ -44,7 +45,16 @@ public class Esqueleto : MonoBehaviour
             );
         }
 
-        if(vida <= 0) Destroy(gameObject);
+        if(vida <= 0)
+        {
+            animador.SetBool("die",true);
+        }
+    }
+
+    public void FimDoEsqueleto()
+    {
+        Destroy(gameObject);
+        Instantiate(orbePrefab, transform.position, Quaternion.identity);
     }
 
     public void Dano()
