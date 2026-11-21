@@ -14,12 +14,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text orbesText;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject menuOpcoes;
+    [SerializeField] private GameObject fimDeJogo;
 
     [Header("Audios")]
     [SerializeField] private AudioSource trilha;
     [SerializeField] private Slider volumeMusica;
+    [SerializeField] private AudioSource somOrbe;
+    [SerializeField] private Slider volumeSFX;
 
-    private int fase_atual = 0;
+    public int fase_atual = 0;
     int cont = 0;
 
     void Start()
@@ -30,12 +33,19 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        orbesText.text = orbesColetadas+"/"+fases[fase_atual].meta;
+        if(fase_atual < fases.Count)
+        {
+            orbesText.text = orbesColetadas+"/"+fases[fase_atual].meta;
+        }
     }
 
     public void VolumeMusica()
     {
         trilha.volume = volumeMusica.value;
+    }
+    public void VolumeSFX()
+    {
+        somOrbe.volume = volumeSFX.value;
     }
  
     void Awake()
@@ -54,6 +64,7 @@ public class GameManager : MonoBehaviour
     public void ColetarOrbe()
     {
         orbesColetadas++;
+        somOrbe.Play();
     }
 
     public void TrocarFase()
@@ -61,10 +72,24 @@ public class GameManager : MonoBehaviour
         if(orbesColetadas == fases[fase_atual].meta)
         {
             fase_atual++;
-            SceneManager.LoadScene(fases[fase_atual].nome);
-            orbesColetadas = 0;
-            Invoke("ColocarEsqueletos", 1f);
+            if(fase_atual >= fases.Count)
+            {
+                fimDeJogo.SetActive(true);
+            }
+            else
+            {
+                SceneManager.LoadScene(fases[fase_atual].nome);
+                orbesColetadas = 0;
+                Invoke("ColocarEsqueletos", 1f);
+            }
         }
+    }
+
+    public void VoltarParaMenu()
+    {
+        menu.SetActive(true);
+        menuOpcoes.SetActive(false);
+        fimDeJogo.SetActive(false);
     }
 
     public void Sair()
